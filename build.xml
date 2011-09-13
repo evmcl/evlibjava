@@ -2,7 +2,7 @@
 
 <project name="main" default="dist" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-  <property name="evlib.version" value="1.0"/>
+  <property name="evlib.version" value="1.1.dev"/>
 
   <property name="top" location=".."/>
   <property file="${top}/build.local"/>
@@ -35,7 +35,7 @@
 
   <target name="bz2" depends="stage">
     <tar
-      destfile="dist/evlibjava.tar-${evlib.version}.bz2"
+      destfile="dist/evlibjava-${evlib.version}.tar.bz2"
       basedir="target/stage"
       compression="bzip2"
     />
