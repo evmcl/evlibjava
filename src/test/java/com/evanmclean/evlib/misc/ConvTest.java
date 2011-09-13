@@ -1,0 +1,81 @@
+/*
+ * = License =
+
+McLean Computer Services Open Source Software License
+
+(Looks like the BSD license, but less restrictive.)
+
+Copyright (c) 2006-2011 Evan McLean. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+
+2. Neither the names "Evan McLean", "McLean Computer Services", "EvLib" nor the
+names of any contributors may be used to endorse or promote products derived
+from this software without prior written permission.
+
+3. Products derived from this software may not be called "Evlib", nor may
+"Evlib" appear in their name, without prior written permission.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+= License =
+ */
+package com.evanmclean.evlib.misc;
+
+import junit.framework.TestCase;
+
+/**
+ * @author Evan M<sup>c</sup>Lean <a href="http://evanmclean.com/"
+ *         target="_blank">M<sup>c</sup>Lean Computer Services</a> (see the
+ *         overview for copyright and licensing.)
+ */
+public class ConvTest extends TestCase
+{
+  public static final String TEST_ALL_TEST_TYPE = "UNIT";
+
+  public void testToDouble()
+  {
+    assertEquals(1.0, Conv.toDouble("1", 0));
+    assertEquals(-1.0, Conv.toDouble("x", -1.0));
+    assertEquals(1.0, Conv.toDouble("1.0", -1.0));
+    assertEquals(1.0, Conv.toDouble("   1    ", 0));
+  }
+
+  public void testToDoubleObj()
+  {
+    assertEquals(1.0, Conv.toDoubleObj("1", 0.0));
+    assertEquals(-1.0, Conv.toDoubleObj("x", -1.0));
+    assertEquals(1.0, Conv.toDoubleObj("1.0", -1.0));
+    assertEquals(1.0, Conv.toDoubleObj("   1    ", 0.0));
+    assertNull(Conv.toDoubleObj("", -1.0));
+    assertNull(Conv.toDoubleObj("      \t     ", -1.0));
+  }
+
+  public void testToInt()
+  {
+    assertEquals(1, Conv.toInt("1", 0));
+    assertEquals(-1, Conv.toInt("x", -1));
+    assertEquals(-1, Conv.toInt("1.0", -1));
+    assertEquals(1, Conv.toInt("   1    ", 0));
+  }
+
+  public void testToLong()
+  {
+    assertEquals(1L, Conv.toLong("1", 0));
+    assertEquals(-1L, Conv.toLong("x", -1));
+    assertEquals(-1L, Conv.toLong("1.0", -1));
+    assertEquals(1L, Conv.toLong("   1    ", 0));
+  }
+}

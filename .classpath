@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry excluding="**/.svn/**" kind="src" output="build/test-classes" path="src/test/java"/>
+	<classpathentry kind="lib" path="target/libs/default/junit.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/servlet-api.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/TableLayout.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/velocity.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="target/libs/default/slf4j-simple.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/findbugs.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/commons-dbcp.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/commons-pool.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/velocity-tools.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="target/libs/default/commons-lang.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

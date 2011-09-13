@@ -1,0 +1,31 @@
+All of the code found under src/main was written by Evan McLean.
+
+Some of the unit testing code under /src/test was borrowed from various sources
+as detailed below, however all code that is rolled into evlib.jar is licensed
+as detailed in license.txt and the javadoc overview.
+
+---
+
+src/test/java/com/evanmclean/evlib/cache/ConcurrentHashMapCacheTest.java
+
+Written by Doug Lea with assistance from members of JCP JSR-166 Expert Group
+and released to the public domain, as explained at
+http://creativecommons.org/licenses/publicdomain Other contributors include
+Andrew Wright, Jeffrey Hayes, Pat Fisher, Mike Judd.
+
+---
+
+src/test/java/com/evanmclean/evlib/cache/MapInterfaceTest.java
+
+Copyright (C) 2008 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.

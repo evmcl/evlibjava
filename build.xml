@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+
+<project name="main" default="dist" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+  <property name="evlib.version" value="1.0"/>
+
+  <property name="top" location=".."/>
+  <property file="${top}/build.local"/>
+
+  <property name="ivy.install.version" value="2.2.0"/>
+  <condition property="ivy.home" value="${env.IVY_HOME}">
+    <isset property="env.IVY_HOME"/>
+  </condition>
+  <property name="ivy.home" location="${user.home}/.ant"/>
+  <property name="ivy.jar.dir" location="${ivy.home}/lib"/>
+  <property name="ivy.jar.file" location="${ivy.jar.dir}/ivy-${ivy.install.version}.jar"/>
+
+  <target
+    name="dist"
+    description="Creates the full distribution."
+    depends="zip,gz,bz2"
+  />
+
+  <target name="zip" depends="stage">
+    <zip destfile="dist/evlibjava-${evlib.version}.zip" basedir="target/stage"/>
+  </target>
+
+  <target name="gz" depends="stage">
+    <tar
+      destfile="dist/evlibjava-${evlib.version}.tar.gz"
+      basedir="target/stage"
+      compression="gzip"
+    />
+  </target>
+
+  <target name="bz2" depends="stage">
+    <tar
+      destfile="dist/evlibjava.tar-${evlib.version}.bz2"
+      basedir="target/stage"
+      compression="bzip2"
+    />
+  </target>
+
+  <target name="stage" depends="jar,docs">
+    <mkdir dir="target/stage/evlibjava"/>
+    <copy todir="target/stage/evlibjava">
+      <fileset dir=".">
+	<include name="**/*"/>
+	<exclude name=".hg/**"/>
+	<exclude name=".hgignore"/>
+	<exclude name="rollout.sh"/>
+	<exclude name="target/**"/>
+	<exclude name="build/**"/>
+	<exclude name="dist/**"/>
+	<exclude name=".settings/**"/>
+	<exclude name="**/*.swp"/>
+      </fileset>
+      <fileset dir="dist">
+	<include name="evlib-${evlib.version}.jar"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="jar" description="Makes the jar file." depends="compile">
+    <mkdir dir="dist"/>
+    <jar destfile="dist/evlib-${evlib.version}.jar">
+      <metainf file="license.txt"/>
+      <fileset dir="target/classes"/>
+    </jar>
+  </target>
+
+  <target name="compile" depends="init" description="Compile java code.">
+    <mkdir dir="target/classes"/>
+    <javac
+      srcdir="src/main/java"
+      destdir="target/classes"
+      classpathref="default.class.path"
+      target="1.5"
+      source="1.5"
+      debug="on"
+      debuglevel="lines,vars,source"
+      deprecation="on"
+      includeantruntime="false"
+    />
+  </target>
+
+  <target name="test" depends="compile" description="Build and run unit tests.">
+    <path id="test.class.path">
+      <pathelement location="target/classes"/>
+      <path refid="default.class.path"/>
+    </path>
+    <mkdir dir="target/test-classes"/>
+    <javac
+      srcdir="src/test/java"
+      destdir="target/test-classes"
+      classpathref="test.class.path"
+      target="1.5"
+      source="1.5"
+      debug="on"
+      debuglevel="lines,vars,source"
+      deprecation="on"
+      includeantruntime="false"
+    />
+    <java failonerror="true" fork="true" classname="junit.textui.TestRunner">
+      <classpath>
+	<pathelement location="target/test-classes"/>
+	<path refid="test.class.path"/>
+      </classpath>
+      <arg value="com.evanmclean.evlib.AllTests"/>
+    </java>
+  </target>
+
+  <target name="license" description="Updates the license text in all the source files.">
+    <mkdir dir="target"/>
+    <property name="guard" value="= License ="/>
+    <loadfile property="origlicensetext" srcFile="license.txt"/>
+    <echo file="target/license.txt" message="${guard}${line.separator}${line.separator}${origlicensetext}${line.separator}${guard}"/>
+    <loadfile property="licensetext" srcFile="target/license.txt"/>
+    <replaceregexp
+      match="${guard}(.*${guard})?"
+      replace="${licensetext}"
+      flags="ims"
+    >
+      <fileset dir="src" includes="**/*"/>
+    </replaceregexp>
+  </target>
+
+  <target name="docs" depends="compile" description="Creates the java doc.">
+    <uptodate property="skip.docs" targetfile="docs/java/index.html">
+      <srcfiles dir="target/classes" includes="**/*"/>
+    </uptodate>
+    <antcall target="dodocs" inheritRefs="true"/>
+  </target>
+
+  <target name="dodocs" unless="skip.docs">
+    <delete dir="docs/java"/>
+    <mkdir dir="docs/java"/>
+
+    <javadoc
+      destdir="docs/java"
+      sourcepath="src/main/java"
+      packagenames="com.evanmclean.*"
+      overview="src/main/doc/overview.html"
+      classpathref="default.class.path"
+    >
+      <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      <link href="http://commons.apache.org/dbcp/apidocs/"/>
+      <link href="http://commons.apache.org/fileupload/apidocs/"/>
+      <link href="http://tomcat.apache.org/tomcat-5.5-doc/servletapi/"/>
+      <link href="http://velocity.apache.org/engine/devel/apidocs/"/>
+      <link href="http://velocity.apache.org/tools/devel/javadoc/"/>
+    </javadoc>
+  </target>
+
+  <target name="clean" description="Cleans up dist and docs.">
+    <delete dir="docs"/>
+    <delete dir="dist"/>
+    <delete dir="target"/>
+  </target>
+
+  <target name="init" depends="install-ivy">
+    <ivy:retrieve pattern="target/libs/[conf]/[artifact].[ext]" type="jar"/>
+    <path id="default.class.path">
+      <fileset dir="target/libs">
+	<include name="default/*.jar"/>
+      </fileset>
+    </path>
+  </target>
+
+  <target name="download-ivy" unless="skip.ivy.download">
+    <mkdir dir="${ivy.jar.dir}"/>
+    <echo message="installing ivy..."/>
+    <get
+      src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+      dest="${ivy.jar.file}"
+      usetimestamp="true"
+    />
+  </target>
+
+  <target name="install-ivy">
+    <available property="skip.ivy.download" file="${ivy.jar.file}"/>
+    <antcall target="download-ivy"/>
+    <path id="ivy.lib.path">
+      <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+    </path>
+    <taskdef
+      resource="org/apache/ivy/ant/antlib.xml"
+      uri="antlib:org.apache.ivy.ant"
+      classpathref="ivy.lib.path"
+    />
+  </target>
+</project>
