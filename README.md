@@ -1,3 +1,5 @@
+# Evlib Java
+
 A collection of reusable tools and utilities that I found I was often
 re-implementing in different Java projects.
 
@@ -16,3 +18,7 @@ and [plenty more](http://evmcl.github.com/evlibjava/index.html).
 See the [javadoc](http://evmcl.github.com/evlibjava/index.html) for all the details.
 
 Released under a BSD style license.
+
+[Download](https://github.com/evmcl/evlibjava/downloads) &bull;
+[Javadoc](http://evmcl.github.com/evlibjava/index.html) &bull;
+[Github](https://github.com/evmcl/evlibjava)
