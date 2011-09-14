@@ -19,6 +19,6 @@ See the [javadoc](http://evmcl.github.com/evlibjava/index.html) for all the deta
 
 Released under a BSD style license.
 
-[Download](https://github.com/evmcl/evlibjava/downloads) &bull;
+[Download of binary, source & doc](https://github.com/evmcl/evlibjava/downloads) &bull;
 [Javadoc](http://evmcl.github.com/evlibjava/index.html) &bull;
 [Github](https://github.com/evmcl/evlibjava)
